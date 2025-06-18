@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    <name>Custom Fakin Floor</name>
+    <directory>custom-fakin-floor</directory>
+    <description>Mod description here</description>
+    <version>1.0</version>
+    <visibility>Public</visibility>
+    <tag id="Lua"/>
+    <tag id="Floors"/>
+</metadata>
