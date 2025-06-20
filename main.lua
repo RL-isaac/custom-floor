@@ -1,26 +1,10 @@
-local mod = RegisterMod("Custom Seed Setter", 1)
-Isaac.DebugString("Hello, World!");
+local myMod = RegisterMod("RestartMod", 1)
 
 
-local player = Isaac.GetPlayer()
-local game = Game()
-local seeds = game:GetSeeds()
-
-Isaac.DebugString("Seed" .. tostring(seeds))
-
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function()
-    -- Obtener el jugador actual
-    local player = Isaac.GetPlayer(0)
+function myMod:PostGameStarted()
+    Isaac.DebugString("[LA MEDIA VOLA] Empezo el juego");
+    Isaac.ExecuteCommand("restart") -- Replace with your desired seed
     
-    -- Verificar si el jugador tiene un seed personalizado
-    if player:GetSeed() == 0 then
-        -- Establecer un seed personalizado
-        local customSeed = 123456789  -- Cambia este número por el seed que desees
-        seeds:SetSeed(customSeed)
-        Isaac.DebugString("Custom Seed Set: " .. tostring(customSeed))
-    else
-        Isaac.DebugString("Player already has a custom seed: " .. tostring(player:GetSeed()))
-    end
-end)
--- Registrar el callback para cuando inicie el juego
-mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.OnGameStart)
+end
+
+myMod:AddCallback(ModCallbacks.MC_POST_GAME_END , myMod.PostGameStarted)
