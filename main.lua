@@ -27,14 +27,11 @@ local attackMapping = {
 
 local actions = {0, 0, 0}
 
-local remainingActionFrames = {0, 0, 0}
-
 local function handleNewActions(readActions)
     if #readActions >= 3 then
         for i = 1, #readActions do
             if readActions[i] ~= actions[i] then
                 actions[i] = readActions[i]
-                remainingActionFrames[i] = (i == 1 or i == 2) and movementFrames or tearFrames
             end
         end
     end
@@ -89,28 +86,16 @@ end
 function myMod:PostGameFinished()
     Isaac.ExecuteCommand("restart")
     -- delete contents of the file
-    local log = io.open("log.txt", "w")
-    if log then
-        log:write("")  -- Clear the file
-        log:close()
-    end
 end
 
 function myMod:FrameHandler(entity, inputHook, buttonAction)
     if (inputHook == InputHook.IS_ACTION_TRIGGERED) and (buttonAction == ButtonAction.FULLSCREEN) and not game.IsPaused() then
         readFile()
         frameCounter = frameCounter + 1
-
-        for i = 1, #remainingActionFrames do
-            if remainingActionFrames[i] > 0 then
-                remainingActionFrames[i] = remainingActionFrames[i] - 1
-            end
-        end
-
     end
 
     for i = 1, #actions do
-        if actions[i] ~= 0 and remainingActionFrames[i] > 0 and (buttonAction == actions[i]) then
+        if actions[i] ~= 0 and (buttonAction == actions[i]) then
             return 1;
         end
     end
